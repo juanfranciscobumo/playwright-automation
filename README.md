@@ -5,10 +5,10 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](https://github.com/features/actions)
 [![Code Style](https://img.shields.io/badge/Code%20Style-ESLint%20%2B%20Prettier-4B32C3?style=flat-square&logo=eslint)](https://eslint.org/)
-[![Report](https://img.shields.io/badge/Report-Allure-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
+[![Report](https://img.shields.io/badge/Report-Allure%20%2B%20HTML-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
 [![Pages](https://img.shields.io/badge/Pages-GitHub%20Pages-222222?style=flat-square&logo=github)](https://pages.github.com/)
 
-Framework de automatización de pruebas API con Playwright y TypeScript.
+Framework de automatización de pruebas API con Playwright y TypeScript para [JSONPlaceholder](https://jsonplaceholder.typicode.com). Incluye custom fixtures, cliente API tipado y reportes con Allure + HTML.
 
 ## Reporte de Pruebas
 
@@ -32,10 +32,10 @@ Ver reporte en GitHub Pages: https://juanfranciscobumo.github.io/playwright-auto
 │  └─────────────────────────────────────────────────────┘   │
 │                          │                                  │
 │                          ▼                                  │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
-│  │  HTML       │    │   Allure    │    │  GitHub     │     │
-│  │  Reporter   │    │  Reporter   │    │  Pages      │     │
-│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│  ┌─────────────┐    ┌─────────────┐                        │
+│  │  Allure     │    │  HTML       │                        │
+│  │  Reporter   │    │  Reporter   │                        │
+│  └─────────────┘    └─────────────┘                        │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -81,7 +81,7 @@ npx playwright install
 │       ├── staging.json
 │       └── prod.json
 ├── fixtures/
-│   └── test-data.ts       # Datos de prueba y fixtures
+│   └── test-data.ts       # Datos de prueba y custom fixtures
 ├── pages/
 │   └── BasePage.ts        # Page Object base
 ├── utils/
@@ -113,7 +113,6 @@ test("GET posts", async ({ apiHelpers }) => {
 - `apiHelpers.post<T>(endpoint, body)` - Petición POST
 - `apiHelpers.put<T>(endpoint, body)` - Petición PUT
 - `apiHelpers.delete<T>(endpoint)` - Petición DELETE
-- `apiHelpers.patch<T>(endpoint, body)` - Petición PATCH
 
 ### testData
 Datos de prueba centralizados:
@@ -125,6 +124,25 @@ test("ejemplo", async ({ apiHelpers }) => {
   const { data } = await apiHelpers.get(testData.endpoints.posts);
 });
 ```
+
+## Tests incluidos (11)
+
+### Posts (6)
+- GET all posts
+- GET post by ID
+- POST create post
+- PUT update post
+- DELETE post
+- GET posts by userId
+
+### Users (3)
+- GET all users
+- GET user by ID
+- GET user posts
+
+### Comments (2)
+- GET all comments
+- GET comments by postId
 
 ## Ejemplo de uso
 
@@ -165,7 +183,7 @@ Se utiliza [JSONPlaceholder](https://jsonplaceholder.typicode.com) como API de p
 https://jsonplaceholder.typicode.com
 ```
 
-### Endpoints disponibles
+### Endpoints testeados
 
 | Método | Endpoint | Descripción |
 |--------|----------|-------------|
@@ -180,24 +198,17 @@ https://jsonplaceholder.typicode.com
 | GET | `/users/:id/posts` | Obtener posts de un usuario |
 | GET | `/comments` | Obtener todos los comentarios |
 | GET | `/comments?postId=:id` | Obtener comentarios por post |
-| GET | `/albums` | Obtener todos los álbumes |
-| GET | `/todos` | Obtener todas las tareas |
-
-### Headers
-```json
-{
-  "Accept": "application/json",
-  "Content-Type": "application/json"
-}
-```
 
 ## Configuración
 
 La configuración principal se encuentra en `playwright.config.ts`:
 
 - **baseUrl**: https://jsonplaceholder.typicode.com
-- **Browsers**: Chromium, Firefox, WebKit, Mobile Chrome, Mobile Safari
+- **Browsers**: Chromium, Firefox, WebKit, Mobile Chrome (Pixel 5), Mobile Safari (iPhone 13)
 - **Reporters**: HTML, List, Allure
+- **Retries**: 2 en CI, 0 local
+- **Trace**: on-first-retry
+- **Screenshot**: only-on-failure
 
 ## Tecnologías
 
