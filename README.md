@@ -1,14 +1,48 @@
 # Playwright Automation
 
-Framework de automatización de pruebas end-to-end y API con Playwright y TypeScript.
+[![Playwright](https://img.shields.io/badge/Playwright-1.40%2B-2EAD33?style=flat-square&logo=playwright)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.0-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20%2B-339933?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![CI/CD](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=flat-square&logo=github-actions)](https://github.com/features/actions)
+[![Code Style](https://img.shields.io/badge/Code%20Style-ESLint%20%2B%20Prettier-4B32C3?style=flat-square&logo=eslint)](https://eslint.org/)
+[![Report](https://img.shields.io/badge/Report-Allure-FF6B6B?style=flat-square)](https://docs.qameta.io/allure/)
+[![Pages](https://img.shields.io/badge/Pages-GitHub%20Pages-222222?style=flat-square&logo=github)](https://pages.github.com/)
+
+Framework de automatización de pruebas API con Playwright y TypeScript.
 
 ## Reporte de Pruebas
 
 Ver reporte en GitHub Pages: https://juanfranciscobumo.github.io/playwright-automation/
 
+## Arquitectura
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                Playwright Automation                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   Test      │    │  Custom     │    │  Fixtures   │     │
+│  │   Specs     │───▶│  Fixtures   │───▶│  (Data)     │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                  │                  │             │
+│         ▼                  ▼                  ▼             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              API (JSONPlaceholder)                   │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                          │                                  │
+│                          ▼                                  │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │  HTML       │    │   Allure    │    │  GitHub     │     │
+│  │  Reporter   │    │  Reporter   │    │  Pages      │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ## Requisitos previos
 
-- Node.js >= 18
+- Node.js >= 20
 - npm o yarn
 
 ## Instalación
@@ -27,11 +61,25 @@ npx playwright install
 | `npm run test:ui` | Abre la UI de Playwright |
 | `npm run test:debug` | Ejecuta tests en modo debug |
 | `npm run test:api` | Ejecuta solo tests de API |
+| `npm run test:dev` | Ejecuta tests en ambiente dev |
+| `npm run test:staging` | Ejecuta tests en ambiente staging |
+| `npm run test:prod` | Ejecuta tests en ambiente production |
 | `npm run report` | Abre el reporte HTML |
+| `npm run allure:generate` | Genera reporte Allure |
+| `npm run allure:open` | Abre reporte Allure |
+| `npm run lint` | Verifica código con ESLint |
+| `npm run lint:fix` | Corrige problemas de ESLint |
+| `npm run format` | Formatea código con Prettier |
+| `npm run format:check` | Verifica formateo con Prettier |
 
 ## Estructura del proyecto
 
 ```
+├── config/
+│   └── environments/        # Configuración por ambiente
+│       ├── dev.json
+│       ├── staging.json
+│       └── prod.json
 ├── fixtures/
 │   └── test-data.ts       # Datos de prueba y fixtures
 ├── pages/
@@ -43,7 +91,9 @@ npx playwright install
 │       ├── posts.spec.ts
 │       ├── users.spec.ts
 │       └── comments.spec.ts
-└── playwright.config.ts
+├── .eslintrc.json         # Configuración ESLint
+├── .prettierrc            # Configuración Prettier
+└── playwright.config.ts   # Configuración principal
 ```
 
 ## Custom Fixtures y Helpers
@@ -147,9 +197,14 @@ La configuración principal se encuentra en `playwright.config.ts`:
 
 - **baseUrl**: https://jsonplaceholder.typicode.com
 - **Browsers**: Chromium, Firefox, WebKit, Mobile Chrome, Mobile Safari
-- **Reporters**: HTML, List
+- **Reporters**: HTML, List, Allure
 
 ## Tecnologías
 
 - Playwright 1.40+
 - TypeScript 5
+- Node.js 20+
+- GitHub Actions (CI/CD)
+- ESLint + Prettier (Code Quality)
+- Allure (Advanced Reports)
+- GitHub Pages (Report Deployment)
