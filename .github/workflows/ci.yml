@@ -2,9 +2,9 @@ name: Playwright API Tests
 
 on:
   push:
-    branches: [main, develop]
+    branches: [master, main, develop]
   pull_request:
-    branches: [main]
+    branches: [master, main]
   workflow_dispatch:
 
 permissions:
@@ -51,7 +51,7 @@ jobs:
 
   report:
     needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

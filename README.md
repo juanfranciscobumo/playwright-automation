@@ -2,6 +2,10 @@
 
 Framework de automatización de pruebas end-to-end y API con Playwright y TypeScript.
 
+## Reporte de Pruebas
+
+Ver reporte en GitHub Pages: https://juanfranciscobumo.github.io/playwright-automation/
+
 ## Requisitos previos
 
 - Node.js >= 18
