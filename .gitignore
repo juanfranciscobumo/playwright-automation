@@ -3,4 +3,6 @@ test-results/
 playwright-report/
 blob-report/
 .playwright/
+allure-results/
+allure-report/
 .env
